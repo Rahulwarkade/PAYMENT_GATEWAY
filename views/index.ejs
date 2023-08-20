@@ -487,9 +487,26 @@
             "image": "https://ik.imagekit.io/sheryians/Sheryians_Logo_wFKd9VClG.png",
             "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             "handler": function (response){
-                alert(response.razorpay_payment_id);
-                alert(response.razorpay_order_id);
-                alert(response.razorpay_signature)
+				alert(response.razorpay_payment_id);
+				alert(response.razorpay_order_id);
+				alert(response.razorpay_signature)
+				var settings1 = {
+					"url": "/api/payment/verify",
+					"method": "POST",
+					"timeout": 0,
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"data": JSON.stringify({response}),
+				}
+				$.ajax(settings1).done(function(response){
+					if(response.signatureIsValid == true)
+					{
+						window.location.url = '/success';
+					}else{
+						alert('Payment Failed!!!');
+					}
+				})
             },
 
             "notes": {
